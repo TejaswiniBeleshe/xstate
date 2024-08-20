@@ -10,34 +10,34 @@ function App() {
   const [ipCity,setIpCity] = useState("");
   const [check1,setCheck1] = useState(true); 
   const [check2,setCheck2] = useState(true); 
-  const apiCall = async(url)=>{
+  const apiCall = async(url,msg)=>{
     try{
       let response = await fetch(url);
       let data = await response.json();
       return data;
 
     }catch(err){
-      console.log(err.response)
+      if(err.response.status===500){
+        console.log(msg)
+      }else{
+        console.log(err)
+      }
+      
     }
   
   }
 
   useEffect(()=>{
     
-    let resCountry = apiCall("https://crio-location-selector.onrender.com/countries");
+    let resCountry = apiCall("https://crio-location-selector.onrender.com/countries","getCountriesError");
     resCountry.then((coun)=>setCountry(coun));
     
   },[])
 
   useEffect(()=>{
     if(ipCountry){
-    let resState = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/states`);
-    if(ipCountry==="India"){
-      resState.then((ele)=>{
-        if(ele.length === 1){
-          throw new Error('status code 500')
-        }
-    })}
+    let resState = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/states`,"getStatesError");
+    
     resState.then((st)=>setState(st));
     setCheck1(false)
     }else{
