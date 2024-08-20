@@ -10,13 +10,13 @@ function App() {
   const [ipCity,setIpCity] = useState("");
   const [check1,setCheck1] = useState(true); 
   const [check2,setCheck2] = useState(true); 
-  const apiCall = async(url,msg)=>{
+  const apiCall = async(url,msg="")=>{
     try{
       let response = await fetch(url);
       let data = await response.json();
       return data;
     }catch(err){
-      if(err.response.status===500){
+      if(err.status===500){
         console.log(msg)
       }else{
         console.log(err)
