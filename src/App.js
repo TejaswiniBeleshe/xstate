@@ -43,18 +43,17 @@ function App() {
   },[])
 
   useEffect(()=>{
-       
     
 
     let getDataOfState = async()=>{
       try{
         let resCountry = await fetch(`https://crio-location-selector.onrender.com/country=${ipCountry}/states`);
         let data = await resCountry.json();
-        setCountry(data)
+        setState(data);
 
       }catch(err){
         if(err.status === 500){
-          console.error("getCountriesError")
+          console.error("getStatesError")
         }else{
           console.log(err)
         }
@@ -62,13 +61,11 @@ function App() {
     }
     if(ipCountry){
       getDataOfState();
-      
       setCheck1(false)
     }else{
-      setCheck1(true);
+        setCheck1(true);
     }
-    
-    
+  
   },[ipCountry])
 
   useEffect(()=>{
