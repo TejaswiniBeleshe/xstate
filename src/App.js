@@ -87,8 +87,9 @@ function App() {
               }
             </select>
          </div>
-          <p><h3>You selected</h3><h1>{ipCountry}</h1>,<h3>{ipState},{ipCity}</h3></p>
+         
       </div>
+      {check2?<p><h3>You selected</h3><h1>{ipCountry}</h1>,<h3>{ipState},{ipCity}</h3></p>:""}
     </div>
   );
 }
