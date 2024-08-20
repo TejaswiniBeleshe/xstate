@@ -27,16 +27,15 @@ function App() {
     let resCountry = apiCall("https://crio-location-selector.onrender.com/countries");
     resCountry.then((coun)=>setCountry(coun));
     setCheck1(true)
-
   },[])
 
   useEffect(()=>{
     if(ipCountry){
     let resState = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/states`);
     resState.then((st)=>setState(st));
-    setCheck2(true)
+    setCheck2(false)
     }else{
-      setCheck2(false);
+      setCheck2(true);
     }
   },[ipCountry])
 
