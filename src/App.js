@@ -19,7 +19,7 @@ function App() {
       if(err.status===500){
         console.log(msg)
       }else{
-        console.log(err)
+        console.log(msg)
       }
     }
   
@@ -28,7 +28,7 @@ function App() {
   useEffect(()=>{
     
     let resCountry = apiCall("https://crio-location-selector.onrender.com/countries","getCountriesError");
-    resCountry.then((coun)=>setCountry(coun)).catch(err=>console.log(err));
+    resCountry.then((coun)=>setCountry(coun));
     
   },[])
 
@@ -36,7 +36,7 @@ function App() {
     if(ipCountry){
     let resState = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/states`,"getStatesError");
     
-    resState.then((st)=>setState(st)).catch(err=>console.log(err));;
+    resState.then((st)=>setState(st))
     setCheck1(false)
     }else{
       setCheck1(true);
@@ -47,7 +47,7 @@ function App() {
     if(ipState && ipCountry){
       
     let resCity = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/state=${ipState}/cities`);
-    resCity.then((ci)=>setCity(ci)).catch(err=>console.log(err));
+    resCity.then((ci)=>setCity(ci))
     setCheck2(false);
     }
   },[ipState,ipCountry])
