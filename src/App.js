@@ -1,23 +1,85 @@
-import logo from './logo.svg';
+import React,{useEffect,useState} from "react";
 import './App.css';
 
 function App() {
+  const [country,setCountry] = useState([]);
+  const [state,setState] = useState([]);
+  const [city,setCity] = useState([]);
+  const [ipCountry,setIpCountry] = useState("");
+  const [ipState,setIpState] = useState("");
+  const [ipCity,setIpCity] = useState("");
+  const apiCall = async(url)=>{
+    let response = await fetch(url);
+    let data = await response.json();
+    return data;
+  }
+
+  useEffect(()=>{
+    let resCountry = apiCall("https://crio-location-selector.onrender.com/countries");
+    resCountry.then((coun)=>setCountry(coun))
+
+  },[])
+
+  useEffect(()=>{
+    let resState = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/states`);
+    resState.then((st)=>setState(st))
+
+  },[ipCountry])
+
+  useEffect(()=>{
+    if(ipState && ipCountry){
+
+    let resCity = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/state=${ipState}/cities`);
+    resCity.then((ci)=>setCity(ci))
+    }
+  },[ipState,ipCountry])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Select Location</h1>
+      <div className="selectDiv">
+         <div style={{border:"1px solid black",width:"50%",height:"50px"}}>
+            <select value={ipCountry} onChange={(e)=>setIpCountry(e.target.value)} style={{width:"100%",height:"100%",paddingLeft:".5rem",}} >
+              <option>Select Country</option>
+              {
+               country.length? country.map((ele)=>{
+                  return <option value={ele}>{ele}</option>
+
+                }):""
+              }
+               
+            </select>
+         </div>
+         <div style={{border:"1px solid black",width:"20%",height:"50px"}}>
+            <select value={ipState} onChange={(e)=>setIpState(e.target.value)} style={{width:"100%",height:"100%",paddingLeft:".5rem"}} >
+            <option>Select State</option>
+            {
+               state.length?state.map((ele)=>{
+                  return <option value={ele}>{ele}</option>
+
+                }):""
+              }
+               
+
+            </select>
+         </div>
+
+         <div style={{border:"1px solid black",width:"20%",height:"50px"}}>
+            <select value={ipCity} onChange={(e)=>setIpCity(e.target.value)} style={{width:"100%",height:"100%",paddingLeft:".5rem"}} >
+               <option>Select City</option>
+               {
+               city.length?city.map((ele)=>{
+                  return <option value={ele}>{ele}</option>
+
+                }):""
+              }
+               
+
+            </select>
+         </div>
+
+
+      </div>
     </div>
   );
 }
