@@ -88,7 +88,7 @@ function App() {
          </div>
          
       </div>
-      {!check2?<p>You selected {ipCountry},{ipState},{ipCity}</p>:""}
+      {ipCity?<p>You selected {ipCountry},{ipState},{ipCity}</p>:""}
     </div>
   );
 }
