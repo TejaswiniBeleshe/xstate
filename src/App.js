@@ -15,14 +15,12 @@ function App() {
       let response = await fetch(url);
       let data = await response.json();
       return data;
-
     }catch(err){
       if(err.response.status===500){
         console.log(msg)
       }else{
         console.log(err)
       }
-      
     }
   
   }
@@ -95,7 +93,7 @@ function App() {
          </div>
          
       </div>
-      {ipCity?<p>You selected {ipCity},{ipState},{ipCountry}</p>:""}
+      {ipCity?<div style={{width:"50%",margin:"auto"}}><h2>You selected <span style={{fontSize:"1.7rem", fontWeight:"700"}}>{ipCity}</span>, <span style={{ color: "#989696"}}>{ipState}, {ipCountry}</span></h2></div>:""}
     </div>
   );
 }
