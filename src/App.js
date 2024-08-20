@@ -10,17 +10,13 @@ function App() {
   const [ipCity,setIpCity] = useState("");
   const [check1,setCheck1] = useState(true); 
   const [check2,setCheck2] = useState(true); 
-  const apiCall = async(url,msg="")=>{
+  const apiCall = async(url)=>{
     try{
       let response = await fetch(url);
       let data = await response.json();
       return data;
     }catch(err){
-      if(err.status===500){
-        console.log(msg)
-      }else{
-        console.log(err)
-      }
+      console.log(err)
     }
   
   }
@@ -47,14 +43,32 @@ function App() {
   },[])
 
   useEffect(()=>{
-    if(ipCountry){
-    let resState = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/states`,"getStatesError");
+       
     
-    resState.then((st)=>setState(st))
-    setCheck1(false)
+
+    let getDataOfState = async()=>{
+      try{
+        let resCountry = await fetch(`https://crio-location-selector.onrender.com/country=${ipCountry}/states`);
+        let data = await resCountry.json();
+        setCountry(data)
+
+      }catch(err){
+        if(err.status === 500){
+          console.error("getCountriesError")
+        }else{
+          console.log(err)
+        }
+      }
+    }
+    if(ipCountry){
+      getDataOfState();
+      
+      setCheck1(false)
     }else{
       setCheck1(true);
     }
+    
+    
   },[ipCountry])
 
   useEffect(()=>{
