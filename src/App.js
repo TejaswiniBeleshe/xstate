@@ -19,16 +19,30 @@ function App() {
       if(err.status===500){
         console.log(msg)
       }else{
-        console.log(msg)
+        console.log(err)
       }
     }
   
   }
 
   useEffect(()=>{
+    let getData = async()=>{
+      try{
+        let resCountry = await fetch("https://crio-location-selector.onrender.com/countries");
+        let data = await resCountry.json();
+        setCountry(data)
+
+      }catch(err){
+        if(err.status === 500){
+          console.error("getCountriesError")
+        }else{
+          console.log(err)
+        }
+      }
+    }
+    getData();
     
-    let resCountry = apiCall("https://crio-location-selector.onrender.com/countries","getCountriesError");
-    resCountry.then((coun)=>setCountry(coun));
+  
     
   },[])
 
