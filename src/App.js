@@ -32,6 +32,12 @@ function App() {
   useEffect(()=>{
     if(ipCountry){
     let resState = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/states`);
+    if(ipCountry==="India"){
+      resState.then((ele)=>{
+        if(ele.length === 1){
+          throw new Error('status code 500')
+        }
+    })}
     resState.then((st)=>setState(st));
     setCheck1(false)
     }else{
@@ -41,6 +47,7 @@ function App() {
 
   useEffect(()=>{
     if(ipState && ipCountry){
+      
     let resCity = apiCall(`https://crio-location-selector.onrender.com/country=${ipCountry}/state=${ipState}/cities`);
     resCity.then((ci)=>setCity(ci))
     setCheck2(false);
